@@ -30,9 +30,8 @@ jobs:
     - run: npm run build --if-present
     - run: npm test
     - name: Build and Push Docker image
-      uses: cloudposse/github-action-docker-build-push@v2.3.0
+      uses: GlueOps/github-actions-build-push-containers@v0.3.7
       with:
-        image_name: sanketshevare/portfolio
-        registry: registry.hub.docker.com
-        organization: "${{ github.event.repository.owner.login }}"
-        repository: "${{ github.event.repository.name }}"
+        registry: "docker.io"
+        dockerhub_username: ${{ secrets.DOCKER_PASSWORD }}
+        dockerhub_password: ${{ secrets.DOCKER_USERNAME }}
