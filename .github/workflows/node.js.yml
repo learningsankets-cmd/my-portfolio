@@ -1,39 +1,21 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-#Commited test
-name: Node.js CI
+name: Portfolio workflow 1.1
 
 on:
   push:
-    branches: [ "dev" ]
+    branches: ["dev"]
   pull_request:
-    branches: [ "dev" ]
+    branches: ["dev"]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
-    - run: npm test
-    - name: Build and Push Docker image
-      uses: GlueOps/github-actions-build-push-containers@v0.3.7
-      with:
-        registry: "docker.io"
-        dockerhub_username: ${{ secrets.DOCKER_USERNAME }}
-        dockerhub_password: ${{ secrets.DOCKER_PASSWORD }}
-        image_name: sanketshevare/portfolio
-
+      - uses: actions/checkout@v4
+      - name: Build and Push Docker image
+        uses: GlueOps/github-actions-build-push-containers@v0.3.7
+        with:
+          registry: "docker.io"
+          dockerhub_username: ${{ secrets.DOCKER_USERNAME }}
+          dockerhub_password: ${{ secrets.DOCKER_PASSWORD }}
+          image_name: sanketshevare/portfolio
+          tags: "1.${{ github.run_number }}"
