@@ -29,3 +29,10 @@ jobs:
     - run: npm ci
     - run: npm run build --if-present
     - run: npm test
+    - name: Build and Push Docker image
+      uses: cloudposse/github-action-docker-build-push@v2.3.0
+      with:
+        image_name: sanketshevare/portfolio
+        registry: registry.hub.docker.com
+        organization: "${{ github.event.repository.owner.login }}"
+        repository: "${{ github.event.repository.name }}"
