@@ -1,0 +1,21 @@
+name: Portfolio workflow 1.1
+
+on:
+  push:
+    branches: ["dev"]
+  pull_request:
+    branches: ["dev"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and Push Docker image
+        uses: GlueOps/github-actions-build-push-containers@v0.3.7
+        with:
+          registry: "docker.io"
+          dockerhub_username: ${{ secrets.DOCKER_USERNAME }}
+          dockerhub_password: ${{ secrets.DOCKER_PASSWORD }}
+          image_name: sanketshevare/portfolio
+          tags: "1.${{ github.run_number }}"
