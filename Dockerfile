@@ -1,7 +1,7 @@
-#stage-1 build
+#Stage-1 build
 FROM node:25-alpine AS builder
 
-WORKDIR /app 
+WORKDIR /app
 
 COPY package*.json /app
 
@@ -11,12 +11,11 @@ COPY . .
 
 RUN npm run build
 
-
-#stage-2 nginx
-
+#Stage-2 serve
 FROM nginx:alpine
 
-COPY --from=builder /app/build /usr/share/nginx/html
+COPY --from=builder app/build /usr/share/nginx/html
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["nginx", "g", "daemon off;"]
+
 
